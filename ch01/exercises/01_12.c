@@ -1,31 +1,23 @@
 #include <stdio.h>
 
-/* Prints a histogram representation of word length. */
+#define IN 1
+#define OUT 0
+
+/* Input is printed as 1 word per line. */
 int main()
 {
-  int c, i, j, nc;
-  int h[20];
+  int c, state;
 
-  for (i = 0; i < 20; ++i) 
-    h[i] = 0;
-
-  nc = 0;
+  state = OUT;
   while ((c = getchar()) != EOF) {
     if (c == ' ' || c == '\t' || c == '\n') {
-      h[nc] = h[nc] + 1;
-      nc = 0;
+      if (state == IN)
+        putchar('\n');
+      state = OUT;
     }
     else {
-      ++nc;
+      state = IN;
+      putchar(c);
     }
-  }
-
-  printf("Word Length Histogram\n");
-  for (i = 0; i < 20; ++i) {
-    printf("%-5d", i);
-    for (j = 0; j < h[i]; ++j) {
-      printf("#");
-    }
-    printf("\n");
   }
 }

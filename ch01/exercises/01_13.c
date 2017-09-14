@@ -1,18 +1,31 @@
 #include <stdio.h>
 
+/* Prints a histogram representation of word length. */
 int main()
 {
-  int c, i;
-  int h[128];
+  int c, i, j, nc;
+  int h[20];
 
-  for (i = 0; i < 128; ++i)
+  for (i = 0; i < 20; ++i) 
     h[i] = 0;
 
+  nc = 0;
   while ((c = getchar()) != EOF) {
-    h[c] = h[c] + 1;
+    if (c == ' ' || c == '\t' || c == '\n') {
+      h[nc] = h[nc] + 1;
+      nc = 0;
+    }
+    else {
+      ++nc;
+    }
   }
 
-  for (i = 0; i < 128; ++i) {
-    printf("%c: %.2f%%\n", i, h[i] / 128.0);
+  printf("Word Length Histogram\n");
+  for (i = 0; i < 20; ++i) {
+    printf("%-5d", i);
+    for (j = 0; j < h[i]; ++j) {
+      printf("#");
+    }
+    printf("\n");
   }
 }
