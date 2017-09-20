@@ -5,13 +5,49 @@
  * suffice to reach a tab stop, which should be given preference?
  */
 
- #include <stdio.h>
+#include <stdio.h>
 
- #define MAXLINE
- #define SPACES_PER_TAB
+#define MAXLINE 1000
+#define SPACES_PER_TAB 4
 
- void entab();
+int _getline(char line[], int maxline);
 
- int main() { }
+int main()
+{
+  char line[MAXLINE];
 
- void entab() { }
+  while (_getline(line, MAXLINE) > 0)
+    printf("%s", line);
+
+  return 0;
+}
+
+int _getline(char s[], int lim)
+{
+  int c, i, bc;
+ 
+  bc = 0; /* initialize blank-space counter */
+  for (i = 0; i < lim-1 && (c = getchar()) != EOF && c != '\n'; ++i) {
+    if (c == ' ') {
+      ++bc;
+      if (bc == SPACES_PER_TAB) {
+        i -= (bc-1);
+        c = 'X';
+        bc = 0; /* reset the counter */
+      }
+    } else {
+      bc = 0; /* reset the counter */
+    }
+
+    s[i] = c;
+  }
+
+  if (c == '\n') {
+    s[i] = '\n';
+    ++i;
+  }
+
+  s[i] = '\0';
+  return i;
+}
+
